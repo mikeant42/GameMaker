@@ -41,11 +41,22 @@ private:
 
 	GLFWwindow *window;
 
+};
+/*
+class WindowInput {
+public:
+	WindowInput();
+	~WindowInput();
 
+	GLFWkeyfun GetKeyboardCallback();
+	GLFWmousebuttonfun GetMouseCallback();
+	GLFWscrollfun GetScrollCallback();
+	GLFWcursorposfun GetCursorCallback();
+private:
 	// our controls
 	GLFWkeyfun keyboardCallback;
-	GLFWkeyfun mouseCallback;
-	GLFWkeyfun scrollCallback;
-	GLFWkeyfun cursorCallback;
+	GLFWmousebuttonfun mouseCallback;
+	GLFWscrollfun scrollCallback;
+	GLFWcursorposfun cursorCallback;
 };
-
+*/
