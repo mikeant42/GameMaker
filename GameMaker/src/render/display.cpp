@@ -15,6 +15,17 @@ void DisplayManager::CreateDisplay() {
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+	// ini glew
+	glewExperimental = GL_TRUE;
+	if (glewInit() != GLEW_OK) {
+		//std::cout << "Failed to initialize GLEW" << std::endl;
+		return;
+	}
+
+	glfwGetFramebufferSize(window, &width, &height);
+
+	glViewport(0, 0, width, height);
 }
 
 void DisplayManager::Loop() {

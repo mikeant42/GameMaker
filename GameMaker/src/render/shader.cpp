@@ -1,18 +1,178 @@
 #include "shader.h"
 #include <fstream>
 #include <iostream>
-#include <gl/GL.h>
+
 
 Shader::Shader(std::string vert, std::string frag) {
-	std::cout << ProcessShader(vert);
+	vertexId = LoadShader(vert, GL_VERTEX_SHADER);
+	fragId = LoadShader(frag, GL_FRAGMENT_SHADER);
+
+	programId = glCreateProgram();
+
+	glAttachShader(vertexId, programId);
+	glAttachShader(fragId, programId);
+
+	BindAttribute(0, "position");
+	BindAttribute(1, "texCoords");
+	BindAttribute(2, "normal"); // not using yet
+	BindAttribute(3, "tangent"); // not using yet
+
+	// verifying
+	glLinkProgram(programId);
+	glValidateProgram(programId);
+}
+
+void Shader::BindAttribute(int attrib, const GLchar *name) {
+	glBindAttribLocation(programId, attrib, name);
+}
+
+void Shader::Start() {
+	glUseProgram(programId);
+}
+
+void Shader::Stop() {
+	glUseProgram(0);
+}
+
+void Shader::Cleanup() {
+	Stop();
+
+	glDetachShader(programId, fragId);
+	glDetachShader(programId, vertexId);
+
+	glDeleteShader(fragId);
+	glDeleteShader(vertexId);
+
+	glDeleteProgram(programId);
+}
+
+void Shader::LoadFloat(int loc, float var) {
+	glUniform1f(loc, var);
+}
+
+void Shader::LoadBool(int loc, bool var) {
+	glUniform1i(loc, var == false ? 0 : 1); // make sure to check the concencation works
+}
+
+void Shader::LoadInt(int loc, int var) {
+	glUniform1i(loc, var);
+}
+
+void Shader::LoadVec2(int loc, glm::vec2 var) {
+	glUniform2f(loc, var.x, var.y);
+}
+
+void Shader::LoadVec3(int loc, glm::vec3 var) {
+	glUniform3f(loc, var.x, var.y, var.z);
+}
+
+void Shader::LoadVec4(int loc, glm::vec4 var) {
+	glUniform4f(loc, var.x, var.y, var.z, var.w);
+}
+
+void Shader::LoadMat4(int loc, glm::mat4 var) {
+	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(var));
+}
+
+void Shader::SetUniform(const GLchar *name, float value) {
+	int loc;
+	if (map.count(name)) {
+		loc = map.find(name)->second;
+	} else {
+		loc = glGetUniformLocation(programId, name);
+		map.emplace(name, loc);
+	}
+
+	LoadFloat(loc, value);
+}
+
+void Shader::SetUniform(const GLchar *name, glm::vec3 value) {
+	int loc;
+	if (map.count(name)) {
+		loc = map.find(name)->second;
+	}
+	else {
+		loc = glGetUniformLocation(programId, name);
+		map.emplace(name, loc);
+	}
+
+	LoadVec3(loc, value);
+}
+
+void Shader::SetUniform(const GLchar *name, glm::vec2 value) {
+	int loc;
+	if (map.count(name)) {
+		loc = map.find(name)->second;
+	}
+	else {
+		loc = glGetUniformLocation(programId, name);
+		map.emplace(name, loc);
+	}
+
+	LoadVec2(loc, value);
+}
+
+void Shader::SetUniform(const GLchar *name, bool value) {
+	int loc;
+	if (map.count(name)) {
+		loc = map.find(name)->second;
+	}
+	else {
+		loc = glGetUniformLocation(programId, name);
+		map.emplace(name, loc);
+	}
+
+	LoadBool(loc, value);
+}
+
+void Shader::SetTextureSlot(const GLchar *name, int value) {
+	int loc;
+	if (map.count(name)) {
+		loc = map.find(name)->second;
+	}
+	else {
+		loc = glGetUniformLocation(programId, name);
+		map.emplace(name, loc);
+	}
+
+	LoadInt(loc, value);
+}
+
+void Shader::SetUniform(const GLchar *name, glm::mat4 value) {
+	int loc;
+	if (map.count(name)) {
+		loc = map.find(name)->second;
+	}
+	else {
+		loc = glGetUniformLocation(programId, name);
+		map.emplace(name, loc);
+	}
+
+	LoadMat4(loc, value);
 }
 
 Shader::~Shader() {
 
 }
 
-int Shader::LoadShader(std::string name) {
-	int shaderId;
+int Shader::LoadShader(std::string name, int type) {
+	int shaderId = glCreateShader(type);
+	
+	GLint success;
+
+	std::string text = ProcessShader(name);
+	const GLchar* shaderCode = text.c_str();
+	glShaderSource(shaderId, 1, &shaderCode, NULL);
+
+	glCompileShader(shaderId);
+
+	glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
+	if (!success){
+		std::cout << "Shader failed to load";
+		return -1;
+	}
+
+	return shaderId;
 }
 
 std::string Shader::ProcessShader(std::string name) {

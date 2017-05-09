@@ -1,5 +1,7 @@
 #pragma once
 
+#include <GL/glew.h>
+
 #include <GLFW/glfw3.h>
 
 class DisplayManager {
@@ -35,8 +37,8 @@ public:
 
 	
 private:
-	const int width = 3000;
-	const int height = 1800;
+	int width = 3000;
+	int height = 1800;
 	float frameSeconds;
 
 	GLFWwindow *window;
