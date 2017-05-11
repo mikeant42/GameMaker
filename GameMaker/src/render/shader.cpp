@@ -9,16 +9,25 @@ Shader::Shader(std::string vert, std::string frag) {
 
 	programId = glCreateProgram();
 
-	glAttachShader(vertexId, programId);
-	glAttachShader(fragId, programId);
+	glAttachShader(programId, vertexId);
+	glAttachShader(programId, fragId);
 
 	BindAttribute(0, "position");
 	BindAttribute(1, "texCoords");
 	BindAttribute(2, "normal"); // not using yet
 	BindAttribute(3, "tangent"); // not using yet
 
-	// verifying
 	glLinkProgram(programId);
+
+	GLint success;
+	GLchar infoLog[512];
+	// Check for linking errors
+	glGetProgramiv(programId, GL_LINK_STATUS, &success);
+	if (!success) {
+		glGetProgramInfoLog(programId, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+	}
+
 	glValidateProgram(programId);
 }
 
@@ -158,17 +167,21 @@ Shader::~Shader() {
 int Shader::LoadShader(std::string name, int type) {
 	int shaderId = glCreateShader(type);
 	
-	GLint success;
-
 	std::string text = ProcessShader(name);
+	std::cout << text << std::endl;
 	const GLchar* shaderCode = text.c_str();
+
 	glShaderSource(shaderId, 1, &shaderCode, NULL);
 
 	glCompileShader(shaderId);
 
-	glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
-	if (!success){
-		std::cout << "Shader failed to load";
+	GLint success;
+	GLchar infoLog[512];
+	glGetShaderiv(vertexId, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		glGetShaderInfoLog(vertexId, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
 		return -1;
 	}
 
@@ -179,16 +192,23 @@ std::string Shader::ProcessShader(std::string name) {
 	std::string finalString;
 	std::string prefix = "#include";
 
-	std::ifstream input(name);
-	for (std::string line; std::getline(input, line); ) {
-		
-		if (!line.compare(0, prefix.size(), prefix)) { // If the line starts with an include
-			// For now, this only does #include file instead of #include <file> because w c++ you can't
-			// tell the substring where to end.
-			finalString += ProcessShader("res/shader/" + line.substr(prefix.length() + 1));
-		} else {
-			finalString += line += "\n";
+	try {
+		std::ifstream input(name);
+
+		for (std::string line; std::getline(input, line); ) {
+
+			if (!line.compare(0, prefix.size(), prefix)) { // If the line starts with an include
+				// For now, this only does #include file instead of #include <file> because w c++ you can't
+				// tell the substring where to end.
+				finalString += ProcessShader("res/shader/" + line.substr(prefix.length() + 1));
+			}
+			else {
+				finalString += line += "\n";
+			}
 		}
+	}
+	catch (std::ifstream::failure e) {
+		std::cout << "Failed to open file. Error: " << std::endl;
 	}
 
 	return finalString;

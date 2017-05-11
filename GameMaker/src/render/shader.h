@@ -16,6 +16,9 @@ public:
 
 	void Cleanup();
 
+	void Start();
+	void Stop();
+
 	void SetUniform(const GLchar *name, float value);
 	void SetUniform(const GLchar *name, glm::vec3 value);
 	void SetUniform(const GLchar *name, glm::vec2 value);
@@ -34,9 +37,6 @@ private:
 	std::unordered_map<const GLchar*, int> map;
 
 	void BindAttribute(int attrib, const GLchar *variable);
-
-	void Start();
-	void Stop();
 
 	void LoadFloat(int loc, float var);
 	void LoadBool(int loc, bool var);

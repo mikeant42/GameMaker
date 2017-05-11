@@ -117,17 +117,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\render\mesh.cpp" />
     <ClCompile Include="src\render\display.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\render\shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\render\mesh.h" />
     <ClInclude Include="src\render\display.h" />
     <ClInclude Include="src\render\shader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shader\default.vert" />
-    <None Include="res\shader\test.vert" />
+    <None Include="res\shader\default.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
