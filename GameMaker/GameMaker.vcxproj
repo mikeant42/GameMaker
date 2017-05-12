@@ -121,11 +121,14 @@
     <ClCompile Include="src\render\display.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\render\shader.cpp" />
+    <ClCompile Include="src\render\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\render\mesh.h" />
     <ClInclude Include="src\render\display.h" />
     <ClInclude Include="src\render\shader.h" />
+    <ClInclude Include="src\util\stb_image.h" />
+    <ClInclude Include="src\render\texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shader\default.vert" />

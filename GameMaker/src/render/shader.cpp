@@ -168,7 +168,7 @@ int Shader::LoadShader(std::string name, int type) {
 	int shaderId = glCreateShader(type);
 	
 	std::string text = ProcessShader(name);
-	std::cout << text << std::endl;
+
 	const GLchar* shaderCode = text.c_str();
 
 	glShaderSource(shaderId, 1, &shaderCode, NULL);
