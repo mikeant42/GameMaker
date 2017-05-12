@@ -117,6 +117,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\node.cpp" />
     <ClCompile Include="src\render\mesh.cpp" />
     <ClCompile Include="src\render\display.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -124,6 +125,8 @@
     <ClCompile Include="src\render\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\core\node.h" />
+    <ClInclude Include="src\core\transform.h" />
     <ClInclude Include="src\render\mesh.h" />
     <ClInclude Include="src\render\display.h" />
     <ClInclude Include="src\render\shader.h" />

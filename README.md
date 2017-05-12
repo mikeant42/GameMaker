@@ -5,3 +5,4 @@ This is a partial rewrite of the EnterpriseEngine in C++. Hopes that it will be 
 - Need a good logging library, shouldn't be using `cout` so often
 - Should I be using a namespace?
 - Improve Shader SetUniform() function, shouldn't be five different ones
+- Use quaternions with the cams instead of euler rotation

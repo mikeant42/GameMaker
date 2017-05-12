@@ -91,6 +91,9 @@ int main(void) {
 
 	glEnable(GL_DEPTH_TEST);
 
+	glm::mat4 model;
+	model = glm::rotate(model, (GLfloat)(glfwGetTime() * 100.0f) / 50, glm::vec3(0.5f, 1.0f, 0.0f));
+
 
 	/* Loop until the user closes the window */
 	while (!displayManager.ShouldClose()) {
@@ -109,9 +112,6 @@ int main(void) {
 
 		glm::mat4 projection;
 		projection = glm::perspective(45.0f, GLfloat(displayManager.GetWindowWidth() / displayManager.GetWindowHeight()), 0.1f, 100.0f);
-
-		glm::mat4 model;
-		model = glm::rotate(model, (GLfloat)(glfwGetTime() * 100.0f)/50, glm::vec3(0.5f, 1.0f, 0.0f));
 
 		tex.Use();
 
