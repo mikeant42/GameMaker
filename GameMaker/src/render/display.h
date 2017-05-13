@@ -25,7 +25,9 @@ public:
 		return glfwWindowShouldClose(window);
 	}
 
-	float GetFrameTimeSeconds();
+	inline float GetDeltaTime() {
+		return deltaTime;
+	}
 
 	void CreateDisplay();
 	void CloseDisplay();
@@ -34,12 +36,13 @@ public:
 	inline GLFWwindow *GetWindowPointer() {
 		return window;
 	}
-
 	
 private:
 	int width = 3000;
 	int height = 1800;
-	float frameSeconds;
+
+	GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
+	GLfloat lastFrame = 0.0f;  	// Time of last frame
 
 	GLFWwindow *window;
 

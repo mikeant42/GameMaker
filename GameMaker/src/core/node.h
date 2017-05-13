@@ -9,14 +9,28 @@ public:
 	Node();
 	~Node();
 
-	void Render();
+	virtual void Render();
+	virtual void Input(bool keys[], float deltaTime);
+	virtual void Update(float delta);
 
-	Transform GetTransform() {
+	std::vector<Node*> GetAllChildren();
+	
+	inline std::vector<Node*> GetChildren() {
+		return children;
+	}
+
+	void AddChild(Node *node);
+
+	inline Transform GetTransform() {
 		return transform;
 	}
 
-private:
+	inline void SetTransform(const Transform &trans) {
+		transform = trans;
+	}
+
+protected:
 	std::vector <Node*> children;
-	Transform transform;
+	Transform transform = Transform();
 };
 

@@ -2,45 +2,42 @@
 
 #include <glm/glm.hpp>
 
-class Transform 
-{
+struct Transform {
 public:
-	Transform() {
-		position = glm::vec3();
-		rotation = glm::vec3();
-		scale = 1;
-	}
+	void SetPosition(const glm::vec3 &pos);
+	glm::vec3 GetPosition();
 
-	~Transform() {
+	void SetRotation(const glm::vec3 &rot);
+	glm::vec3 GetRotation();
 
-	}
-
-	void SetPosition(glm::vec3 pos) {
-		position = pos;
-	}
-
-	glm::vec3 GetPosition() {
-		return position;
-	}
-
-	void SetRotation(glm::vec3 rot) {
-		rotation = rot;
-	}
-
-	glm::vec3 GetRotation() {
-		return rotation;
-	}
-
-	void SetScale(float scal) {
-		scale = scal;
-	}
-
-	float GetScale() {
-		return scale;
-	}
-
+	void SetScale(float scale);
+	float GetScale();
 private:
-	glm::vec3 position;
-	glm::vec3 rotation;
-	float scale;
+	glm::vec3 position = glm::vec3(0,0,0);
+	glm::vec3 rotation = glm::vec3(0, 0, 0);
+	float scale = 1;
 };
+
+inline void Transform::SetPosition(const glm::vec3 &pos) {
+	position = pos;
+}
+
+inline glm::vec3 Transform::GetPosition() {
+	return position;
+}
+
+inline void Transform::SetRotation(const glm::vec3 &rot) {
+	rotation = rot;
+}
+
+inline glm::vec3 Transform::GetRotation() {
+	return rotation;
+}
+
+inline void Transform::SetScale(float sc) {
+	scale = sc;
+}
+
+inline float Transform::GetScale() {
+	return scale;
+}

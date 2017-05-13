@@ -11,7 +11,7 @@
 class Shader
 {
 public:
-	Shader(std::string frag, std::string vert);
+	Shader(const std::string &frag, const std::string &vert);
 	~Shader();
 
 	void Cleanup();
@@ -20,15 +20,15 @@ public:
 	void Stop();
 
 	void SetUniform(const GLchar *name, float value);
-	void SetUniform(const GLchar *name, glm::vec3 value);
-	void SetUniform(const GLchar *name, glm::vec2 value);
+	void SetUniform(const GLchar *name, const glm::vec3 &value);
+	void SetUniform(const GLchar *name, const glm::vec2 &value);
 	void SetUniform(const GLchar *name, bool value);
-	void SetUniform(const GLchar *name, glm::mat4 value);
+	void SetUniform(const GLchar *name, const glm::mat4 &value);
 	void SetTextureSlot(const GLchar *name, int value);
 
 private:
-	int LoadShader(std::string name, int type);
-	std::string ProcessShader(std::string name);
+	int LoadShader(const std::string &name, int type);
+	std::string ProcessShader(const std::string &name);
 
 	int programId;
 	int vertexId;
@@ -40,10 +40,10 @@ private:
 
 	void LoadFloat(int loc, float var);
 	void LoadBool(int loc, bool var);
-	void LoadVec3(int loc, glm::vec3 var);
-	void LoadVec2(int loc, glm::vec2 var);
-	void LoadVec4(int loc, glm::vec4 var);
+	void LoadVec3(int loc, const glm::vec3 &var);
+	void LoadVec2(int loc, const glm::vec2 &var);
+	void LoadVec4(int loc, const glm::vec4 &var);
 	void LoadInt(int loc, int var);
-	void LoadMat4(int loc, glm::mat4 var);
+	void LoadMat4(int loc, const glm::mat4 &var);
 };
 

@@ -17,13 +17,13 @@ public:
 
 	void Use();
 
-	int GetWidth() {
+	inline int GetWidth() {
 		return width;
 	}
-	int GetHeight() {
+	inline int GetHeight() {
 		return height;
 	}
-	GLuint GetTextureID() {
+	inline GLuint GetTextureID() {
 		return id;
 	}
 

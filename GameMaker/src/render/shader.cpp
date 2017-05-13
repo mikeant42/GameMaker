@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-Shader::Shader(std::string vert, std::string frag) {
+Shader::Shader(const std::string &vert, const std::string &frag) {
 	vertexId = LoadShader(vert, GL_VERTEX_SHADER);
 	fragId = LoadShader(frag, GL_FRAGMENT_SHADER);
 
@@ -67,19 +67,19 @@ void Shader::LoadInt(int loc, int var) {
 	glUniform1i(loc, var);
 }
 
-void Shader::LoadVec2(int loc, glm::vec2 var) {
+void Shader::LoadVec2(int loc, const glm::vec2 &var) {
 	glUniform2f(loc, var.x, var.y);
 }
 
-void Shader::LoadVec3(int loc, glm::vec3 var) {
+void Shader::LoadVec3(int loc, const glm::vec3 &var) {
 	glUniform3f(loc, var.x, var.y, var.z);
 }
 
-void Shader::LoadVec4(int loc, glm::vec4 var) {
+void Shader::LoadVec4(int loc, const glm::vec4 &var) {
 	glUniform4f(loc, var.x, var.y, var.z, var.w);
 }
 
-void Shader::LoadMat4(int loc, glm::mat4 var) {
+void Shader::LoadMat4(int loc, const glm::mat4 &var) {
 	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(var));
 }
 
@@ -95,7 +95,7 @@ void Shader::SetUniform(const GLchar *name, float value) {
 	LoadFloat(loc, value);
 }
 
-void Shader::SetUniform(const GLchar *name, glm::vec3 value) {
+void Shader::SetUniform(const GLchar *name, const glm::vec3 &value) {
 	int loc;
 	if (map.count(name)) {
 		loc = map.find(name)->second;
@@ -108,7 +108,7 @@ void Shader::SetUniform(const GLchar *name, glm::vec3 value) {
 	LoadVec3(loc, value);
 }
 
-void Shader::SetUniform(const GLchar *name, glm::vec2 value) {
+void Shader::SetUniform(const GLchar *name, const glm::vec2 &value) {
 	int loc;
 	if (map.count(name)) {
 		loc = map.find(name)->second;
@@ -147,7 +147,7 @@ void Shader::SetTextureSlot(const GLchar *name, int value) {
 	LoadInt(loc, value);
 }
 
-void Shader::SetUniform(const GLchar *name, glm::mat4 value) {
+void Shader::SetUniform(const GLchar *name, const glm::mat4 &value) {
 	int loc;
 	if (map.count(name)) {
 		loc = map.find(name)->second;
@@ -164,7 +164,7 @@ Shader::~Shader() {
 
 }
 
-int Shader::LoadShader(std::string name, int type) {
+int Shader::LoadShader(const std::string &name, int type) {
 	int shaderId = glCreateShader(type);
 	
 	std::string text = ProcessShader(name);
@@ -188,7 +188,7 @@ int Shader::LoadShader(std::string name, int type) {
 	return shaderId;
 }
 
-std::string Shader::ProcessShader(std::string name) {
+std::string Shader::ProcessShader(const std::string &name) {
 	std::string finalString;
 	std::string prefix = "#include";
 

@@ -29,10 +29,18 @@ void DisplayManager::CreateDisplay() {
 }
 
 void DisplayManager::Loop() {
+
+	GLfloat currentFrame = glfwGetTime();
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
+
 	/* Swap front and back buffers */
 	glfwSwapBuffers(window);
 
 	/* Poll for and process events */
 	glfwPollEvents();
 }
+
+
+
 

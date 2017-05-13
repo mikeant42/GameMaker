@@ -9,6 +9,13 @@
 #include "render/display.h"
 #include "render/shader.h"
 #include "render/texture.h"
+#include "core/node.h"
+#include "render/camera.h"
+
+#include <iostream>
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+bool keys[1024];
 
 int main(void) {
 	DisplayManager displayManager = DisplayManager();
@@ -16,6 +23,10 @@ int main(void) {
 
 	Shader shader = Shader("res/shader/default.vert", "res/shader/default.frag");
 	Texture tex = Texture::LoadTexture("res/texture/stone005.jpg");
+
+	Node root = Node();
+
+
 
 	GLfloat vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -86,6 +97,8 @@ int main(void) {
 
 	glBindVertexArray(0); // Unbind VAO
 
+	glfwSetKeyCallback(displayManager.GetWindowPointer(), key_callback);
+
 	//glm::mat4 model;
 	//model = glm::rotate(model, -55.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -94,9 +107,15 @@ int main(void) {
 	glm::mat4 model;
 	model = glm::rotate(model, (GLfloat)(glfwGetTime() * 100.0f) / 50, glm::vec3(0.5f, 1.0f, 0.0f));
 
+	Camera *cam = new Camera();
+	root.AddChild(cam);
+	cam->GetTransform().SetPosition(glm::vec3(0, 0, 5));
+
+	root.GetTransform().SetPosition(glm::vec3(0, 5, 5));
 
 	/* Loop until the user closes the window */
 	while (!displayManager.ShouldClose()) {
+		displayManager.Loop();
 		/* Render here */
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -106,9 +125,18 @@ int main(void) {
 		glEnableVertexAttribArray(2);
 
 
+		for (Node *child : root.GetChildren()) { // Should be GetAllChildren()
+			child->Input(keys, displayManager.GetDeltaTime());
+			child->Update(displayManager.GetDeltaTime());
+			child->Render();
+		}
+
+		cam->GetTransform().SetPosition(cam->GetTransform().GetPosition() + 0.5f);
+
 		// Create transformations
 		glm::mat4 view;
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		view = glm::lookAt(cam->GetTransform().GetPosition(), cam->GetTransform().GetPosition()
+			+ cam->GetCamFront(), cam->GetCamUp());
 
 		glm::mat4 projection;
 		projection = glm::perspective(45.0f, GLfloat(displayManager.GetWindowWidth() / displayManager.GetWindowHeight()), 0.1f, 100.0f);
@@ -133,11 +161,21 @@ int main(void) {
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
 
-		displayManager.Loop();
 	}
 
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	//glDeleteBuffers(1, &EBO);
 	
+}
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+	if (key >= 0 && key < 1024)
+	{
+		if (action == GLFW_PRESS) 
+			keys[key] = true;
+		else if (action == GLFW_RELEASE)
+			keys[key] = false;
+	}
 }
