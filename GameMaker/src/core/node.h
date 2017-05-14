@@ -1,7 +1,13 @@
 #pragma once
 
 #include <vector>
-#include "transform.h"
+#include "transform.hpp"
+#include <GL/glew.h>
+#include "input.h"
+
+#include "component.h"
+
+class Component;
 
 class Node
 {
@@ -10,7 +16,7 @@ public:
 	~Node();
 
 	virtual void Render();
-	virtual void Input(bool keys[], float deltaTime);
+	virtual void Input(const InputData &data, float deltaTime);
 	virtual void Update(float delta);
 
 	std::vector<Node*> GetAllChildren();
@@ -29,8 +35,15 @@ public:
 		transform = trans;
 	}
 
+	void AddComponent(Component *comp);
+
+	inline std::vector<Component*> GetComponents() {
+		return components;
+	}
+
 protected:
 	std::vector <Node*> children;
+	std::vector <Component*> components;
 	Transform transform = Transform();
 };
 

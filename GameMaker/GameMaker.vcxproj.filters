@@ -56,10 +56,16 @@
     <ClInclude Include="src\core\node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\transform.h">
+    <ClInclude Include="src\render\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\render\camera.h">
+    <ClInclude Include="src\core\transform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,5 @@
+
 #include "node.h"
-
-
 
 Node::Node()
 {
@@ -21,9 +20,26 @@ void Node::AddChild(Node *node) {
 	children.push_back(node);
 }
 
-void Node::Render() {}
-void Node::Input(bool keys[], float deltaTime) {}
-void Node::Update(float delta) {}
+void Node::AddComponent(Component *comp) {
+	components.push_back(comp);
+	comp->SetParent(this);
+}
+
+void Node::Render() {
+	for (Component *comp : components) {
+		comp->Render();
+	}
+}
+void Node::Input(const InputData &data, float deltaTime) {
+	for (Component *comp : components) {
+		comp->Input(data, deltaTime);
+	}
+}
+void Node::Update(float delta) {
+	for (Component *comp : components) {
+		comp->Update(delta);
+	}
+}
 
 
 Node::~Node()
@@ -31,6 +47,14 @@ Node::~Node()
 	for (unsigned int i = 0; i < children.size(); i++) {
 		if (children[i]) {
 			delete children[i];
+		}
+	}
+
+	for (unsigned int i = 0; i < components.size(); i++)
+	{
+		if (components[i])
+		{
+			delete components[i];
 		}
 	}
 }

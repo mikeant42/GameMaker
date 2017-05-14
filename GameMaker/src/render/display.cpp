@@ -26,11 +26,18 @@ void DisplayManager::CreateDisplay() {
 	glfwGetFramebufferSize(window, &width, &height);
 
 	glViewport(0, 0, width, height);
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	InputManager &input = InputManager::GetInstance();
+
+	glfwSetKeyCallback(window, InputManager::key_callback);
+	glfwSetCursorPosCallback(window, InputManager::mouse_callback);
 }
 
 void DisplayManager::Loop() {
 
-	GLfloat currentFrame = glfwGetTime();
+	float currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 

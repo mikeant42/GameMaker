@@ -126,9 +126,11 @@
     <ClCompile Include="src\render\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\core\input.h" />
+    <ClInclude Include="src\core\component.h" />
     <ClInclude Include="src\render\camera.h" />
     <ClInclude Include="src\core\node.h" />
-    <ClInclude Include="src\core\transform.h" />
+    <ClInclude Include="src\core\transform.hpp" />
     <ClInclude Include="src\render\mesh.h" />
     <ClInclude Include="src\render\display.h" />
     <ClInclude Include="src\render\shader.h" />

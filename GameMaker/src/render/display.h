@@ -4,6 +4,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "../core/input.h"
+
 class DisplayManager {
 public:
 	//DisplayManager();
@@ -41,8 +43,8 @@ private:
 	int width = 3000;
 	int height = 1800;
 
-	GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
-	GLfloat lastFrame = 0.0f;  	// Time of last frame
+	float deltaTime = 0.0f;	// Time between current frame and last frame
+	float lastFrame = 0.0f;  	// Time of last frame
 
 	GLFWwindow *window;
 

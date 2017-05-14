@@ -40,8 +40,11 @@ Texture::Texture(int width, int height, unsigned char *imageData) {
 	Texture(width, height, imageData, GL_TEXTURE_2D, GL_LINEAR, true, GL_RGBA8, GL_RGBA, true);
 }
 
-void Texture::Use() {
+void Texture::Activate() {
 	glActiveTexture(GL_TEXTURE0 + id);
+}
+
+void Texture::Bind() {
 	glBindTexture(target, id);
 }
 

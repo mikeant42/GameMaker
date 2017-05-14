@@ -1,9 +1,5 @@
 #include "camera.h"
 
-#include <GL/glew.h>
-#include <glm/glm.hpp>
-#include <GLFW/glfw3.h>
-
 #include <iostream>
 
 Camera::Camera() : Node()
@@ -20,23 +16,51 @@ Camera::~Camera()
 }
 
 void Camera::Render() {
-
+	Node::Render();
 }
 
 void Camera::Update(float deltaTime) {
+	Node::Update(deltaTime);
 }
 
-void Camera::Input(bool keys[], float deltaTime) {
+void Camera::Input(const InputData &data, float deltaTime) {
+	Node::Input(data, deltaTime);
 	GLfloat cameraSpeed = 5 * deltaTime;
-	if (keys[GLFW_KEY_W]) {
+	if (data.keys[GLFW_KEY_W]) {
 		transform.SetPosition(transform.GetPosition() + cameraSpeed * cameraFront);
 	}
-	if (keys[GLFW_KEY_S])
+	if (data.keys[GLFW_KEY_S])
 		transform.SetPosition(transform.GetPosition() - cameraSpeed * cameraFront);
-	if (keys[GLFW_KEY_A])
+	if (data.keys[GLFW_KEY_A])
 		transform.SetPosition(transform.GetPosition() - glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed);
-	if (keys[GLFW_KEY_D])
+	if (data.keys[GLFW_KEY_D])
 		transform.SetPosition(transform.GetPosition() + glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed);
+
+	double xpos = data.mousePosX;
+	double ypos = data.mousePosY;
+
+	GLfloat xoffset = xpos - lastX;
+	GLfloat yoffset = lastY - ypos;
+	lastX = xpos;
+	lastY = ypos;
+
+	GLfloat sensitivity = 0.05;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw += xoffset;
+	pitch += yoffset;
+
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+
+	glm::vec3 front;
+	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
+	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraFront = glm::normalize(front);
 
 }
 
