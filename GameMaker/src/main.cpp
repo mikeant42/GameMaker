@@ -24,7 +24,7 @@ int main(void) {
 	Node root = Node();
 
 
-
+	// should be obsolete with model loader
 	GLfloat vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
