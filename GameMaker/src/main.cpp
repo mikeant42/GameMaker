@@ -11,6 +11,7 @@
 #include "render/texture.h"
 #include "core/node.h"
 #include "render/camera.h"
+#include "render/rendercomponent.h"
 
 #include <iostream>
 
@@ -107,6 +108,14 @@ int main(void) {
 
 	InputManager &input = InputManager::GetInstance();
 
+	RenderComponent *renderComp = new RenderComponent("res/mesh/rock.obj");
+
+	Node *rock = new Node();
+	rock->AddComponent(renderComp);
+
+	root.AddChild(rock);
+	
+
 	/* Loop until the user closes the window */
 	while (!displayManager.ShouldClose()) {
 		displayManager.Loop();
@@ -122,7 +131,7 @@ int main(void) {
 		for (Node *child : root.GetChildren()) { // Should be GetAllChildren()
 			child->Input(input.GetInputData(), displayManager.GetDeltaTime());
 			child->Update(displayManager.GetDeltaTime());
-			child->Render();
+			child->Render(cam);
 		}
 
 		// Create transformations

@@ -15,8 +15,8 @@ Camera::~Camera()
 {
 }
 
-void Camera::Render() {
-	Node::Render();
+void Camera::Render(const Camera *cam) {
+	Node::Render(cam);
 }
 
 void Camera::Update(float deltaTime) {

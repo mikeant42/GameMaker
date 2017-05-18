@@ -7,13 +7,15 @@
 
 #include "../core/node.h"
 
+class Node;
+
 class Camera : public Node
 {
 public:
 	Camera();
 	~Camera();
 
-	void Render();
+	void Render(const Camera *cam);
 	void Update(float deltaTime);
 	void Input(const InputData &data, float deltaTime);
 

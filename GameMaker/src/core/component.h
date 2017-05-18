@@ -3,7 +3,9 @@
 #include <GL/glew.h>
 #include "input.h"
 #include "../render/shader.h"
+
 #include "node.h"
+#include "../render/camera.h"
 
 class Node;
 
@@ -14,7 +16,7 @@ public:
 
 	virtual void Input(const InputData &data, float deltaTime) {}
 	virtual void Update(float deltaTime) {}
-	virtual void Render() {}
+	virtual void Render(const Camera *cam) {}
 
 	inline void SetParent(Node *node) {
 		parent = node;

@@ -48,6 +48,8 @@ private:
 
 	GLFWwindow *window;
 
+	InputManager &input = InputManager::GetInstance();
+
 };
 /*
 class WindowInput {

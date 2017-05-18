@@ -5,8 +5,9 @@
 #include <GL/glew.h>
 #include "input.h"
 
-#include "component.h"
 
+
+class Camera;
 class Component;
 
 class Node
@@ -15,7 +16,7 @@ public:
 	Node();
 	~Node();
 
-	virtual void Render();
+	virtual void Render(const Camera *cam);
 	virtual void Input(const InputData &data, float deltaTime);
 	virtual void Update(float delta);
 

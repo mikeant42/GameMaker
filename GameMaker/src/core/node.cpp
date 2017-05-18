@@ -1,6 +1,10 @@
 
 #include "node.h"
 
+#include "component.h"
+#include "../render/camera.h"
+
+
 Node::Node()
 {
 }
@@ -25,9 +29,9 @@ void Node::AddComponent(Component *comp) {
 	comp->SetParent(this);
 }
 
-void Node::Render() {
+void Node::Render(const Camera *cam) {
 	for (Component *comp : components) {
-		comp->Render();
+		comp->Render(cam);
 	}
 }
 void Node::Input(const InputData &data, float deltaTime) {

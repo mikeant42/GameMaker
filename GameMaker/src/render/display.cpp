@@ -29,7 +29,6 @@ void DisplayManager::CreateDisplay() {
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	InputManager &input = InputManager::GetInstance();
 
 	glfwSetKeyCallback(window, InputManager::key_callback);
 	glfwSetCursorPosCallback(window, InputManager::mouse_callback);
@@ -46,6 +45,9 @@ void DisplayManager::Loop() {
 
 	/* Poll for and process events */
 	glfwPollEvents();
+
+	if (input.GetInputData().keys[GLFW_KEY_ESCAPE])
+		glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
 
