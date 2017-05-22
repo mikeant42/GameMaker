@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 Camera::Camera() : Node()
 {
 	//__super::Node(); 2 fancy 4 u
@@ -15,7 +18,17 @@ Camera::~Camera()
 {
 }
 
-void Camera::Render(const Camera *cam) {
+void Camera::CreateMatrices(int width, int height) {
+	// Create transformations
+	view = glm::mat4();
+	view = glm::lookAt(GetTransform().GetPosition(), GetTransform().GetPosition()
+		+ GetCamFront(), GetCamUp());
+
+	projection = glm::mat4();
+	projection = glm::perspective(45.0f, GLfloat(width / height), 0.1f, 10000.0f);
+}
+
+void Camera::Render(Camera *cam) {
 	Node::Render(cam);
 }
 
@@ -25,7 +38,7 @@ void Camera::Update(float deltaTime) {
 
 void Camera::Input(const InputData &data, float deltaTime) {
 	Node::Input(data, deltaTime);
-	GLfloat cameraSpeed = 5 * deltaTime;
+	GLfloat cameraSpeed = 15 * deltaTime;
 	if (data.keys[GLFW_KEY_W]) {
 		transform.SetPosition(transform.GetPosition() + cameraSpeed * cameraFront);
 	}

@@ -47,7 +47,7 @@ void Mesh::Draw(Shader shader) {
 	for (GLuint i = 0; i < _textures.size(); i++) {
 		Texture tex = _textures[i];
 		tex.Activate();
-		shader.SetTextureSlot("tex" + i, tex.GetTextureID());
+		shader.SetTextureSlot("textureSampler" + i, tex.GetTextureID());
 		tex.Bind();
 	}
 

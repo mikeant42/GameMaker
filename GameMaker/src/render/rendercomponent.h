@@ -10,9 +10,16 @@
 
 #include <vector>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
+#include <iostream>
+
 
 class RenderComponent : public Component
 {
@@ -25,7 +32,7 @@ public:
 
 	virtual void Input(const InputData &data, float deltaTime) {}
 	virtual void Update(float deltaTime) {}
-	virtual void Render(const Camera *cam);
+	virtual void Render(Camera *cam);
 
 	inline void SetShader(const Shader &shader) {
 		_shader = shader;
@@ -51,6 +58,9 @@ private:
 
 	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		std::string typeName);
+
+	glm::mat4 model;
+
 
 };
 

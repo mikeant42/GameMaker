@@ -2,12 +2,25 @@
 
 #include <iostream>
 
-
-void RenderComponent::Render(const Camera *cam)
+void RenderComponent::Render(Camera *cam)
 {
+	model = glm::mat4();
+	model = glm::translate(model, GetParent()->GetTransform().GetPosition());
+	model = glm::scale(model, glm::vec3(GetParent()->GetTransform().GetScale()));
+	//GLfloat angle = 20.0f;
+	//model = glm::rotate(model, (GLfloat)(glfwGetTime() * 100.0f) / 50, glm::vec3(0.5f, 1.0f, 0.0f));
+
+	_shader.Start();
+
+	_shader.SetUniform("model", model);
+	_shader.SetUniform("view", cam->GetView());
+	_shader.SetUniform("projection", cam->GetProjection());
+
 	for (GLuint i = 0; i < _meshes.size(); i++) {
 		_meshes[i].Draw(_shader);
 	}
+
+	_shader.Stop();
 }
 
 void RenderComponent::LoadModel(const GLchar *path) {
@@ -23,6 +36,7 @@ void RenderComponent::LoadModel(const GLchar *path) {
 	//directory = path.substr(0, path.find_last_of('/'));
 
 	this->ProcessNode(scene->mRootNode, scene);
+
 }
 
 void RenderComponent::ProcessNode(aiNode* node, const aiScene* scene)
@@ -61,9 +75,27 @@ Mesh RenderComponent::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		normal.y = mesh->mNormals[i].y;
 		normal.z = mesh->mNormals[i].z;
 
+		// Texture Coordinates
+		if (mesh->mTextureCoords[0]) // Does the mesh contain texture coordinates?
+		{
+			glm::vec2 vec;
+			// A vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
+			// use models where a vertex can have multiple texture coordinates so we always take the first set (0).
+			vec.x = mesh->mTextureCoords[0][i].x;
+			vec.y = mesh->mTextureCoords[0][i].y;
+			vertex.texCoords = vec;
+		}
+		else {
+			vertex.texCoords = glm::vec2(0.0f, 0.0f);
+		}
+
+		vertex.position = pos;
+		vertex.normal = normal;		
+
 
 		vertices.push_back(vertex);
 	}
+
 	
 	for (GLuint i = 0; i < mesh->mNumFaces; i++)
 	{
@@ -86,6 +118,7 @@ Mesh RenderComponent::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		else {
 			textures = _textures;
 		}
+		std::cout << textures.size();
 
 	return Mesh(vertices, indices, textures);
 }

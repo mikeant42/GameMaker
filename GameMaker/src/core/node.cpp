@@ -29,7 +29,7 @@ void Node::AddComponent(Component *comp) {
 	comp->SetParent(this);
 }
 
-void Node::Render(const Camera *cam) {
+void Node::Render(Camera *cam) {
 	for (Component *comp : components) {
 		comp->Render(cam);
 	}

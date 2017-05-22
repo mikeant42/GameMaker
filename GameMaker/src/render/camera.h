@@ -15,9 +15,11 @@ public:
 	Camera();
 	~Camera();
 
-	void Render(const Camera *cam);
+	void Render(Camera *cam);
 	void Update(float deltaTime);
 	void Input(const InputData &data, float deltaTime);
+
+	void CreateMatrices(int width, int height);
 
 	inline glm::vec3 GetCamFront() {
 		return cameraFront;
@@ -31,6 +33,14 @@ public:
 		return fov;
 	}
 
+	inline glm::mat4 GetView() {
+		return view;
+	}
+
+	inline glm::mat4 GetProjection() {
+		return projection;
+	}
+
 private:
 	glm::vec3 cameraFront;
 	glm::vec3 cameraUp;
@@ -40,5 +50,8 @@ private:
 	GLfloat fov = 45.0f;
 
 	float lastX, lastY = 1.0f;
+
+	glm::mat4 view;
+	glm::mat4 projection;
 };
 

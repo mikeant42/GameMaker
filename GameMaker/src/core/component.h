@@ -16,7 +16,7 @@ public:
 
 	virtual void Input(const InputData &data, float deltaTime) {}
 	virtual void Update(float deltaTime) {}
-	virtual void Render(const Camera *cam) {}
+	virtual void Render(Camera *cam) {}
 
 	inline void SetParent(Node *node) {
 		parent = node;

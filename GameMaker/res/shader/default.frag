@@ -1,13 +1,13 @@
 #version 330 core
 
 out vec4 color;
-uniform vec3 ccolor;
 
 in vec2 coords;
 
-uniform sampler2D texSampler;
+uniform sampler2D textureSampler0;
   
 void main()
 {
-    color = texture(texSampler, coords);
+    color = texture(textureSampler0, coords);
+	//color = vec4(1,1,1,1);
 }

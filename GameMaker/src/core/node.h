@@ -16,7 +16,7 @@ public:
 	Node();
 	~Node();
 
-	virtual void Render(const Camera *cam);
+	virtual void Render(Camera *cam);
 	virtual void Input(const InputData &data, float deltaTime);
 	virtual void Update(float delta);
 

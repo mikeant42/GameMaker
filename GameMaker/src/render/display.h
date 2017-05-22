@@ -11,7 +11,7 @@ public:
 	//DisplayManager();
 	//~DisplayManager();
 
-	// Both static, because no resizing
+	// Both const, because no resizing
 	inline const int GetWindowWidth() {
 		return width;
 	}
