@@ -7,6 +7,7 @@ void RenderComponent::Render(Camera *cam)
 	model = glm::mat4();
 	model = glm::translate(model, GetParent()->GetTransform().GetPosition());
 	model = glm::scale(model, glm::vec3(GetParent()->GetTransform().GetScale()));
+	std::cout << GetParent()->GetTransform().GetScale();
 	//GLfloat angle = 20.0f;
 	//model = glm::rotate(model, (GLfloat)(glfwGetTime() * 100.0f) / 50, glm::vec3(0.5f, 1.0f, 0.0f));
 

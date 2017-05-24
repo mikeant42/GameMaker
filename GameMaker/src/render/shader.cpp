@@ -14,8 +14,8 @@ Shader::Shader(const std::string &vert, const std::string &frag) {
 
 	BindAttribute(0, "position");
 	BindAttribute(1, "texCoords");
-	BindAttribute(2, "normal"); // not using yet
-	BindAttribute(3, "tangent"); // not using yet
+	BindAttribute(2, "normal"); 
+	BindAttribute(3, "tangent");
 
 	glLinkProgram(programId);
 

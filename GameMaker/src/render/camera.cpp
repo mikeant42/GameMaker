@@ -38,7 +38,7 @@ void Camera::Update(float deltaTime) {
 
 void Camera::Input(const InputData &data, float deltaTime) {
 	Node::Input(data, deltaTime);
-	GLfloat cameraSpeed = 15 * deltaTime;
+	GLfloat cameraSpeed = 5 * deltaTime;
 	if (data.keys[GLFW_KEY_W]) {
 		transform.SetPosition(transform.GetPosition() + cameraSpeed * cameraFront);
 	}

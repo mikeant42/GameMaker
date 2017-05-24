@@ -46,6 +46,8 @@ private:
 	float deltaTime = 0.0f;	// Time between current frame and last frame
 	float lastFrame = 0.0f;  	// Time of last frame
 
+	float nbFrames = 0;
+
 	GLFWwindow *window;
 
 	InputManager &input = InputManager::GetInstance();

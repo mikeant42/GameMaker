@@ -1,5 +1,7 @@
 #include "display.h"
 
+#include <iostream>
+
 void DisplayManager::CreateDisplay() {
 	/* Initialize the library */
 	if (!glfwInit())
@@ -35,10 +37,11 @@ void DisplayManager::CreateDisplay() {
 }
 
 void DisplayManager::Loop() {
-
 	float currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
+
 	lastFrame = currentFrame;
+
 
 	/* Swap front and back buffers */
 	glfwSwapBuffers(window);

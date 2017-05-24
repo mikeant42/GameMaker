@@ -21,26 +21,25 @@ int main(void) {
 
 	Node root = Node();
 
-	//glm::mat4 model;
-	//model = glm::rotate(model, -55.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-
-	glEnable(GL_DEPTH_TEST);
 
 	Camera *cam = new Camera();
 	root.AddChild(cam);
 
 	InputManager &input = InputManager::GetInstance();
 
-	RenderComponent *renderComp = new RenderComponent("res/mesh/nanosuit.obj");
+	RenderComponent *renderComp = new RenderComponent("res/mesh/bunny.obj");
 
-	//renderComp->AddTexture(Texture::LoadTexture("res/texture/stone005.jpg"));
+	renderComp->AddTexture(Texture::LoadTexture("res/texture/white.png"));
 
 	Node *rock = new Node();
-	//rock->GetTransform().SetScale(0.0000008f);
+	rock->GetTransform().SetScale(0.05f);
 	rock->AddComponent(renderComp);
+
+	rock->GetTransform().SetPosition(glm::vec3(-1.0f, -5.0f, -1.0f));
 
 	root.AddChild(rock);
 	
+	glEnable(GL_DEPTH_TEST);
 
 	/* Loop until the user closes the window */
 	while (!displayManager.ShouldClose()) {
