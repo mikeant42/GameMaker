@@ -3,7 +3,6 @@
 #include <GL/glew.h>
 #include "../core/component.h"
 #include "mesh.h"
-#include "shader.h"
 #include "texture.h"
 
 #include "camera.h"
@@ -20,19 +19,22 @@
 
 #include <iostream>
 
+#include "shader.h"
 
-class RenderComponent : public Component
+
+
+class MeshRenderer : public Component
 {
 public:
-	RenderComponent(const GLchar *path) {
+	MeshRenderer(const GLchar *path) {
 		LoadModel(path);
 	}
 
-	~RenderComponent();
+	~MeshRenderer();
 
 	virtual void Input(const InputData &data, float deltaTime) {}
 	virtual void Update(float deltaTime) {}
-	virtual void Render(Camera *cam);
+	virtual void Render(Camera *cam, std::vector<Light> lights);
 
 	inline void SetShader(const Shader &shader) {
 		_shader = shader;

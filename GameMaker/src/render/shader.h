@@ -8,6 +8,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "light/light.h"
+
 class Shader
 {
 public:
@@ -25,6 +27,7 @@ public:
 	void SetUniform(const GLchar *name, bool value);
 	void SetUniform(const GLchar *name, const glm::mat4 &value);
 	void SetTextureSlot(const GLchar *name, int value);
+	void SetUniform(const GLchar *name, std::vector<Light> &lights);
 
 private:
 	int LoadShader(const std::string &name, int type);

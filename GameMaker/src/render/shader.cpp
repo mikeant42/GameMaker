@@ -160,6 +160,13 @@ void Shader::SetUniform(const GLchar *name, const glm::mat4 &value) {
 	LoadMat4(loc, value);
 }
 
+void Shader::SetUniform(const GLchar *name, std::vector<Light> &lights) {
+	for (GLuint i = 0; i < lights.size(); i++) {
+		SetUniform(("lights[" + std::to_string(i) + "].pos").c_str(), lights.at(i).GetPosition());
+		SetUniform(("lights[" + std::to_string(i) + "].color").c_str(), lights.at(i).GetColor());
+	}
+}
+
 Shader::~Shader() {
 
 }

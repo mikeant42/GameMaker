@@ -14,9 +14,9 @@ void DisplayManager::CreateDisplay() {
 		return;
 	}
 
+
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
 	// ini glew
 	glewExperimental = GL_TRUE;
@@ -31,9 +31,14 @@ void DisplayManager::CreateDisplay() {
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
 
 	glfwSetKeyCallback(window, InputManager::key_callback);
 	glfwSetCursorPosCallback(window, InputManager::mouse_callback);
+
+	glfwSwapInterval(0);
+
 }
 
 void DisplayManager::Loop() {
@@ -42,6 +47,19 @@ void DisplayManager::Loop() {
 
 	lastFrame = currentFrame;
 
+	nbFrames++;
+/*
+// For fps
+	if (deltaTime >= 1.0f) {
+		double fps = double(nbFrames) / deltaTime;
+		std::cout << "fps: " << fps << std::endl;
+		nbFrames = 0;
+
+		lastFrame = currentFrame;
+
+	}
+
+*/
 
 	/* Swap front and back buffers */
 	glfwSwapBuffers(window);

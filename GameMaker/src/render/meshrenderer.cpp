@@ -1,13 +1,14 @@
-#include "rendercomponent.h"
+#include "meshrenderer.h"
+
+//#include "light/light.h"
 
 #include <iostream>
 
-void RenderComponent::Render(Camera *cam)
+void MeshRenderer::Render(Camera *cam, std::vector<Light> lights)
 {
 	model = glm::mat4();
-	model = glm::translate(model, GetParent()->GetTransform().GetPosition());
-	model = glm::scale(model, glm::vec3(GetParent()->GetTransform().GetScale()));
-	std::cout << GetParent()->GetTransform().GetScale();
+	model = glm::translate(model, GetParent()->GetTransform()->GetPosition());
+	model = glm::scale(model, glm::vec3(GetParent()->GetTransform()->GetScale()));
 	//GLfloat angle = 20.0f;
 	//model = glm::rotate(model, (GLfloat)(glfwGetTime() * 100.0f) / 50, glm::vec3(0.5f, 1.0f, 0.0f));
 
@@ -16,6 +17,13 @@ void RenderComponent::Render(Camera *cam)
 	_shader.SetUniform("model", model);
 	_shader.SetUniform("view", cam->GetView());
 	_shader.SetUniform("projection", cam->GetProjection());
+	_shader.SetUniform("camPos", cam->GetTransform()->GetPosition());
+	_shader.SetUniform("lights", lights);
+
+	_shader.SetUniform("albedo", glm::vec3(0.2f, 0.8f, 0.5f));
+	_shader.SetUniform("ao", 1.0f);
+	_shader.SetUniform("metallic", 0.4f);
+	_shader.SetUniform("roughness", 0.2f);
 
 	for (GLuint i = 0; i < _meshes.size(); i++) {
 		_meshes[i].Draw(_shader);
@@ -24,7 +32,7 @@ void RenderComponent::Render(Camera *cam)
 	_shader.Stop();
 }
 
-void RenderComponent::LoadModel(const GLchar *path) {
+void MeshRenderer::LoadModel(const GLchar *path) {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
@@ -40,7 +48,7 @@ void RenderComponent::LoadModel(const GLchar *path) {
 
 }
 
-void RenderComponent::ProcessNode(aiNode* node, const aiScene* scene)
+void MeshRenderer::ProcessNode(aiNode* node, const aiScene* scene)
 {
 	// Process all the node's meshes (if any)
 	for (GLuint i = 0; i < node->mNumMeshes; i++)
@@ -55,7 +63,7 @@ void RenderComponent::ProcessNode(aiNode* node, const aiScene* scene)
 	}
 }
 
-Mesh RenderComponent::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+Mesh MeshRenderer::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
@@ -91,7 +99,7 @@ Mesh RenderComponent::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		}
 
 		vertex.position = pos;
-		vertex.normal = normal;		
+		vertex.normal = normal;	
 
 
 		vertices.push_back(vertex);
@@ -124,7 +132,7 @@ Mesh RenderComponent::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	return Mesh(vertices, indices, textures);
 }
 
-std::vector<Texture> RenderComponent::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, 
+std::vector<Texture> MeshRenderer::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 	std::string typeName)
 {
 	std::vector<Texture> textures;
@@ -140,6 +148,6 @@ std::vector<Texture> RenderComponent::LoadMaterialTextures(aiMaterial* mat, aiTe
 	return textures;
 }
 
-RenderComponent::~RenderComponent()
+MeshRenderer::~MeshRenderer()
 {
 }

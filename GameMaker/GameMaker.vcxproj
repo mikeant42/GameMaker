@@ -117,7 +117,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\render\rendercomponent.cpp" />
+    <ClCompile Include="src\render\meshrenderer.cpp" />
     <ClCompile Include="src\render\camera.cpp" />
     <ClCompile Include="src\core\node.cpp" />
     <ClCompile Include="src\render\mesh.cpp" />
@@ -127,7 +127,8 @@
     <ClCompile Include="src\render\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\render\rendercomponent.h" />
+    <ClInclude Include="src\render\light\light.h" />
+    <ClInclude Include="src\render\meshrenderer.h" />
     <ClInclude Include="src\core\input.h" />
     <ClInclude Include="src\core\component.h" />
     <ClInclude Include="src\render\camera.h" />

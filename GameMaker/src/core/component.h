@@ -7,6 +7,8 @@
 #include "node.h"
 #include "../render/camera.h"
 
+#include <vector>
+
 class Node;
 
 class Component {
@@ -16,7 +18,7 @@ public:
 
 	virtual void Input(const InputData &data, float deltaTime) {}
 	virtual void Update(float deltaTime) {}
-	virtual void Render(Camera *cam) {}
+	virtual void Render(Camera *cam, std::vector<Light> lights) {}
 
 	inline void SetParent(Node *node) {
 		parent = node;

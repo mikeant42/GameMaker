@@ -4,6 +4,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "light/light.h"
 
 Camera::Camera() : Node()
 {
@@ -21,15 +22,15 @@ Camera::~Camera()
 void Camera::CreateMatrices(int width, int height) {
 	// Create transformations
 	view = glm::mat4();
-	view = glm::lookAt(GetTransform().GetPosition(), GetTransform().GetPosition()
+	view = glm::lookAt(GetTransform()->GetPosition(), GetTransform()->GetPosition()
 		+ GetCamFront(), GetCamUp());
 
 	projection = glm::mat4();
 	projection = glm::perspective(45.0f, GLfloat(width / height), 0.1f, 10000.0f);
 }
 
-void Camera::Render(Camera *cam) {
-	Node::Render(cam);
+void Camera::Render(Camera *cam, std::vector<Light> lights) {
+	Node::Render(cam, lights);
 }
 
 void Camera::Update(float deltaTime) {

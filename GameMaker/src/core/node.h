@@ -5,10 +5,11 @@
 #include <GL/glew.h>
 #include "input.h"
 
-
+#include <vector>
 
 class Camera;
 class Component;
+class Light;
 
 class Node
 {
@@ -16,7 +17,7 @@ public:
 	Node();
 	~Node();
 
-	virtual void Render(Camera *cam);
+	virtual void Render(Camera *cam, std::vector<Light> lights);
 	virtual void Input(const InputData &data, float deltaTime);
 	virtual void Update(float delta);
 
@@ -28,8 +29,8 @@ public:
 
 	void AddChild(Node *node);
 
-	inline Transform GetTransform() {
-		return transform;
+	inline Transform *GetTransform() {
+		return &transform;
 	}
 
 	inline void SetTransform(const Transform &trans) {

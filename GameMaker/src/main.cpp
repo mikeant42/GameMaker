@@ -7,13 +7,17 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "render/display.h"
-#include "render/shader.h"
 #include "render/texture.h"
+
+
 #include "core/node.h"
 #include "render/camera.h"
-#include "render/rendercomponent.h"
+#include "render/meshrenderer.h"
 
 #include <iostream>
+#include <vector>
+
+//class Light;
 
 int main(void) {
 	DisplayManager displayManager = DisplayManager();
@@ -27,19 +31,26 @@ int main(void) {
 
 	InputManager &input = InputManager::GetInstance();
 
-	RenderComponent *renderComp = new RenderComponent("res/mesh/bunny.obj");
+	MeshRenderer *renderComp = new MeshRenderer("res/mesh/bunny.obj");
 
-	renderComp->AddTexture(Texture::LoadTexture("res/texture/white.png"));
+	renderComp->AddTexture(Texture::LoadTexture("res/texture/stone005.jpg"));
 
 	Node *rock = new Node();
-	rock->GetTransform().SetScale(0.05f);
+	rock->GetTransform()->SetScale(0.5f);
 	rock->AddComponent(renderComp);
 
-	rock->GetTransform().SetPosition(glm::vec3(-1.0f, -5.0f, -1.0f));
+	rock->GetTransform()->SetPosition(glm::vec3(-1.0f, -5.0f, -1.0f));
 
 	root.AddChild(rock);
 	
 	glEnable(GL_DEPTH_TEST);
+
+	std::vector<Light> lights;
+
+	Light light = Light();
+	light.SetPosition(glm::vec3(-1, 3, -1));
+	light.SetColor(glm::vec3(255,255,255));
+	lights.push_back(light);
 
 	/* Loop until the user closes the window */
 	while (!displayManager.ShouldClose()) {
@@ -54,7 +65,7 @@ int main(void) {
 		for (Node *child : root.GetChildren()) { // Should be GetAllChildren()
 			child->Input(input.GetInputData(), displayManager.GetDeltaTime());
 			child->Update(displayManager.GetDeltaTime());
-			child->Render(cam);
+			child->Render(cam, lights);
 		}
 
 

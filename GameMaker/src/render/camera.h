@@ -7,6 +7,8 @@
 
 #include "../core/node.h"
 
+#include <vector>
+
 class Node;
 
 class Camera : public Node
@@ -15,7 +17,7 @@ public:
 	Camera();
 	~Camera();
 
-	void Render(Camera *cam);
+	void Render(Camera *cam, std::vector<Light> lights);
 	void Update(float deltaTime);
 	void Input(const InputData &data, float deltaTime);
 

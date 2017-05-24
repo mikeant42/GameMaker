@@ -3,6 +3,7 @@
 
 #include "component.h"
 #include "../render/camera.h"
+#include "../render/light/light.h"
 
 
 Node::Node()
@@ -29,9 +30,9 @@ void Node::AddComponent(Component *comp) {
 	comp->SetParent(this);
 }
 
-void Node::Render(Camera *cam) {
+void Node::Render(Camera *cam, std::vector<Light> lights) {
 	for (Component *comp : components) {
-		comp->Render(cam);
+		comp->Render(cam, lights);
 	}
 }
 void Node::Input(const InputData &data, float deltaTime) {
