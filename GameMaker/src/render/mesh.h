@@ -7,6 +7,8 @@
 #include "../render/shader.h"
 #include "../render/texture.h"
 
+#include <iostream>
+
 struct Vertex {
 	glm::vec3 position;
 	glm::vec2 texCoords;
@@ -20,6 +22,10 @@ public:
 	~Mesh();
 
 	void Draw(Shader shader);
+
+	inline void AddTexture(const Texture &tex) {
+		_textures.push_back(tex);
+	}
 
 private:
 	std::vector<Vertex> _vertices;

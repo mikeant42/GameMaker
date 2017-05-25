@@ -70,9 +70,11 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, vec3 H, float roughness)
   
 void main()
 {
-    vec4 tex = texture(texture_diffuse0, coords);
+    //vec4 tex = texture(texture_diffuse0, coords);
+	//FragColor = tex;
 	
-	albedo = vec3(tex.x, tex.y, tex.z);
+	albedo = pow(texture(texture_diffuse0, coords).rgb, vec3(2.2));
+	
 	vec3 N = normalize(transposedNormal);
     vec3 V = normalize(camPos - worldPos);
 
@@ -107,7 +109,7 @@ void main()
         float NdotL = max(dot(N, L), 0.0);                
         Lo += (kD * albedo / PI + specular) * radiance * NdotL; 
     }   
-  
+	
     vec3 ambient = vec3(0.03) * albedo * ao;
     vec3 color = ambient + Lo;
 	
@@ -115,4 +117,5 @@ void main()
     color = pow(color, vec3(1.0/2.2));  
    
     FragColor = vec4(color, 1.0);
+	
 }

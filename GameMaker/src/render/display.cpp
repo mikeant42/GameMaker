@@ -37,7 +37,7 @@ void DisplayManager::CreateDisplay() {
 	glfwSetKeyCallback(window, InputManager::key_callback);
 	glfwSetCursorPosCallback(window, InputManager::mouse_callback);
 
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
 
 }
 

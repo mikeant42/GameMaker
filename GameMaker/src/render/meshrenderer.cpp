@@ -20,10 +20,10 @@ void MeshRenderer::Render(Camera *cam, std::vector<Light> lights)
 	_shader.SetUniform("camPos", cam->GetTransform()->GetPosition());
 	_shader.SetUniform("lights", lights);
 
-	_shader.SetUniform("albedo", glm::vec3(0.2f, 0.8f, 0.5f));
-	_shader.SetUniform("ao", 1.0f);
-	_shader.SetUniform("metallic", 0.4f);
-	_shader.SetUniform("roughness", 0.2f);
+	_shader.SetUniform("albedo", mat.albedo);
+	_shader.SetUniform("ao", mat.ao);
+	_shader.SetUniform("metallic", mat.metallic);
+	_shader.SetUniform("roughness", mat.roughness);
 
 	for (GLuint i = 0; i < _meshes.size(); i++) {
 		_meshes[i].Draw(_shader);
@@ -127,9 +127,9 @@ Mesh MeshRenderer::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		else {
 			textures = _textures;
 		}
-		std::cout << textures.size();
+		std::cout << _textures.size();
 
-	return Mesh(vertices, indices, textures);
+	return Mesh(vertices, indices, _textures);
 }
 
 std::vector<Texture> MeshRenderer::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,

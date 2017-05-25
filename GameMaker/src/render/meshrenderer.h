@@ -21,7 +21,7 @@
 
 #include "shader.h"
 
-
+#include "light/material.h"
 
 class MeshRenderer : public Component
 {
@@ -46,6 +46,13 @@ public:
 
 	inline void AddTexture(const Texture &tex) {
 		_textures.push_back(tex);
+		for (Mesh mesh : _meshes) {
+			mesh.AddTexture(tex);
+		}
+	}
+
+	inline PBRMaterial *GetMaterial() {
+		return &mat;
 	}
 
 private:
@@ -62,6 +69,8 @@ private:
 		std::string typeName);
 
 	glm::mat4 model;
+
+	PBRMaterial mat;
 
 
 };

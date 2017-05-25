@@ -6,3 +6,6 @@ This is a partial rewrite of the EnterpriseEngine in C++. Hopes that it will be 
 - Should I be using a namespace?
 - Improve Shader SetUniform() function, shouldn't be five different ones
 - Use quaternions with the cams instead of euler rotation
+
+## Lighting Thoughts
+There should be the option to generate FBOs to be used as environment maps for PBR textures at runetime, or the option to use the skybox. This way both indoor and outdoor scenes can be supported for physically real reflections.

@@ -1,5 +1,6 @@
 #include "mesh.h"
 
+#include <iostream>
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures)
 {
@@ -48,8 +49,10 @@ void Mesh::Draw(Shader shader) {
 		Texture tex = _textures[i];
 		tex.Activate();
 		shader.SetTextureSlot("texture_diffuse" + i, tex.GetTextureID());
+		std::cout << "meshdeq";
 		tex.Bind();
 	}
+	std::cout << _textures.size();
 
 	// Draw mesh
 	glBindVertexArray(VAO);
