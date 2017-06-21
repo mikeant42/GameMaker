@@ -26,9 +26,7 @@
 class MeshRenderer : public Component
 {
 public:
-	MeshRenderer(const GLchar *path) {
-		LoadModel(path);
-	}
+	MeshRenderer(const GLchar *path);
 
 	~MeshRenderer();
 
@@ -46,9 +44,9 @@ public:
 
 	inline void AddTexture(const Texture &tex) {
 		_textures.push_back(tex);
-		for (Mesh mesh : _meshes) {
-			mesh.AddTexture(tex);
-		}
+		//for (Mesh mesh : _meshes) {
+		//	mesh.SetTexture(tex);
+		//}
 	}
 
 	inline PBRMaterial *GetMaterial() {

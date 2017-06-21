@@ -6,7 +6,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vecto
 {
 	_vertices = vertices;
 	_indices = indices;
-	_textures = textures;
+	//_textures = textures;
 
 	InitMesh();
 }
@@ -44,26 +44,32 @@ void Mesh::InitMesh() {
     glBindVertexArray(0);
 }
 
-void Mesh::Draw(Shader shader) {
-	for (GLuint i = 0; i < _textures.size(); i++) {
-		Texture tex = _textures[i];
-		tex.Activate();
-		shader.SetTextureSlot("texture_diffuse" + i, tex.GetTextureID());
-		std::cout << "meshdeq";
-		tex.Bind();
-	}
-	std::cout << _textures.size();
+void Mesh::Draw(Texture texture) {
+	//for (GLuint i = 0; i < _textures.size(); i++) {
+		//Texture tex = _textures[i];
+		//texture.Activate();
+		//shader.SetTextureSlot("texture_diffuse0", texture.GetTextureID());
+		//texture.Bind();
+		//std::cout << "used tex" << texture.GetTextureID() << std::endl;
+	//}
+	//std::cout << "mesh textures " << _textures.size() << std::endl;
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture.GetTextureID());
 
 	// Draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	for (GLuint i = 0; i < _textures.size(); i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	//for (GLuint i = 0; i < _textures.size(); i++)
+	//{
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, 0);
+	//}
 }
 
 

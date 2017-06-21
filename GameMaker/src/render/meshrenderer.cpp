@@ -4,6 +4,14 @@
 
 #include <iostream>
 
+MeshRenderer::MeshRenderer(const GLchar *path) : Component() {
+	LoadModel(path);
+
+	_shader.Start();
+	_shader.SetTextureSlot("texture_diffuse0", 0);
+	_shader.Stop();
+}
+
 void MeshRenderer::Render(Camera *cam, std::vector<Light> lights)
 {
 	model = glm::mat4();
@@ -20,16 +28,30 @@ void MeshRenderer::Render(Camera *cam, std::vector<Light> lights)
 	_shader.SetUniform("camPos", cam->GetTransform()->GetPosition());
 	_shader.SetUniform("lights", lights);
 
-	_shader.SetUniform("albedo", mat.albedo);
-	_shader.SetUniform("ao", mat.ao);
-	_shader.SetUniform("metallic", mat.metallic);
-	_shader.SetUniform("roughness", mat.roughness);
+	_shader.SetUniform("albedo", glm::vec3(1,1,1));
+	_shader.SetUniform("ao", 1.0f);
+	_shader.SetUniform("metallic", 0.5f);
+	_shader.SetUniform("roughness", 0.5f);
+
+	//std::cout << "MR textures: " << _textures.size() << std::endl;
+
+	Texture tex = _textures[0];
+
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, tex.GetTextureID());
 
 	for (GLuint i = 0; i < _meshes.size(); i++) {
-		_meshes[i].Draw(_shader);
+		_meshes[i].Draw(tex);
 	}
 
+	GLuint err = glGetError();
+	if (err != GL_NO_ERROR)
+		std::cerr <<  err << std::endl;
+
 	_shader.Stop();
+
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void MeshRenderer::LoadModel(const GLchar *path) {
@@ -127,7 +149,6 @@ Mesh MeshRenderer::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		else {
 			textures = _textures;
 		}
-		std::cout << _textures.size();
 
 	return Mesh(vertices, indices, _textures);
 }

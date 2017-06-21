@@ -5,6 +5,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../util/stb_image.h"
 
+#include <iostream>
+
 Texture::Texture(int width, int height, unsigned char *imageData, int target, int filter, bool mipMap, int internalFormat, int format, bool clamp)
 {
 	this->width = width;
@@ -40,8 +42,8 @@ Texture::Texture(int width, int height, unsigned char *imageData) {
 	Texture(width, height, imageData, GL_TEXTURE_2D, GL_LINEAR, true, GL_RGBA8, GL_RGBA, true);
 }
 
-void Texture::Activate() {
-	glActiveTexture(GL_TEXTURE0 + id);
+void Texture::Activate(unsigned int i) {
+	glActiveTexture(GL_TEXTURE0 + 0);
 }
 
 void Texture::Bind() {
@@ -51,11 +53,18 @@ void Texture::Bind() {
 Texture Texture::LoadTexture(std::string fileName) {
 	int w, h, comp;
 
-	stbi_set_flip_vertically_on_load(0);
+	stbi_set_flip_vertically_on_load(true);
 	unsigned char *image = stbi_load(fileName.c_str(), &w, &h, &comp, STBI_rgb_alpha);
 
 	int width = w;
 	int height = h;
+
+	//stbi_image_free(image);
+
+	GLuint err = glGetError();
+	if (err != GL_NO_ERROR)
+		std::cerr << err << std::endl;
+
 
 	return Texture(width, height, image);
 }

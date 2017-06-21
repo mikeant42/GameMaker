@@ -15,7 +15,7 @@ public:
 
 	static Texture LoadTexture(std::string fileName);
 
-	void Activate();
+	void Activate(unsigned int i);
 	void Bind();
 
 	inline int GetWidth() {

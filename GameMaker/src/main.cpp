@@ -31,21 +31,21 @@ int main(void) {
 
 	InputManager &input = InputManager::GetInstance();
 
-	MeshRenderer *renderComp = new MeshRenderer("res/mesh/mitsuba.obj");
+	//MeshRenderer *renderComp = new MeshRenderer("res/mesh/mitsuba.obj");
 
-	renderComp->AddTexture(Texture::LoadTexture("res/texture/white.png"));
+	//renderComp->AddTexture(Texture::LoadTexture("res/texture/white.png"));
 
-	renderComp->GetMaterial()->albedo = glm::vec3(0.0, 0.4, 0.4);
-	renderComp->GetMaterial()->metallic = 0.9f;
-	renderComp->GetMaterial()->roughness = 0.1f;
+	//renderComp->GetMaterial()->albedo = glm::vec3(0.0, 0.4, 0.4);
+	//renderComp->GetMaterial()->metallic = 0.9f;
+	//renderComp->GetMaterial()->roughness = 0.1f;
 
-	Node *rock = new Node();
+	//Node *rock = new Node();
 	//rock->GetTransform()->SetScale(0.5f);
-	rock->AddComponent(renderComp);
+	//rock->AddComponent(renderComp);
 
-	rock->GetTransform()->SetPosition(glm::vec3(0.0f, 0.5f, 0.0f));
+	//rock->GetTransform()->SetPosition(glm::vec3(0.0f, 0.5f, 0.0f));
 
-	root.AddChild(rock);
+	//root.AddChild(rock);
 
 	Node *floor = new Node();
 
